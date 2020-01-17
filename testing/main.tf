@@ -36,7 +36,7 @@ resource "aws_key_pair" "stage_keypair" {
 resource "aws_instance" "stage_server" {
   count                 = var.instance_count
   instance_type         = var.instance_type
-  ami                   = data.aws_ami.server_ami.id
+  ami                   = data.aws_ami.centos_latest.id
 
   tags {
     Name = "stage_server-${count.index +1}"
