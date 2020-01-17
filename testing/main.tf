@@ -42,7 +42,7 @@ resource "aws_instance" "stage_server" {
     Name = "stage_server-${count.index +1}"
   }
 
-  key_name               = aws_key_pair.stage_key_pair.id
+  key_name               = aws_key_pair.stage_keypair.id
   vpc_security_group_ids = aws_security_group.stage_sg.id
   subnet_id              = var.subnet_id
 }
