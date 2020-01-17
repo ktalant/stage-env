@@ -28,6 +28,6 @@ resource "aws_instance" "stage_server" {
   instance_type = var.instance_type
   ami           = data.aws_ami.server_ami.id
 
-  tags {
+  tags = {
     Name = "stage_server-${count.index +1}"
   }
