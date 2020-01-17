@@ -2,6 +2,8 @@ provider "aws" {
   region        = var.aws_region
 }
 
+data "aws_availability_zones" "available" {}
+
 data "aws_ami" "centos_latest" {
 owners      = ["679593333241"]
 most_recent = true
@@ -27,11 +29,16 @@ resource "aws_key_pair" "stage_keypair" {
   public_key            = file(var.key_path)
 }
 
-resource "aws_instance" "stage_server" {
-  count         = var.instance_count
-  instance_type = var.instance_type
-  ami           = data.aws_ami.server_ami.id
+resource "aws_instance" "tf_server" {
+  count                 = var.instance_count
+  instance_type         = var.instance_type
+  ami                   = data.aws_ami.server_ami.id
 
-  tags = {
+  tags {
     Name = "stage_server-${count.index +1}"
   }
+
+  key_name               = aws_key_pair.tf_auth.id
+  vpc_security_group_ids = var.security_group
+  subnet_id              = 
+}
