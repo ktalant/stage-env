@@ -33,3 +33,17 @@ resource "aws_key_pair" "stage_keypair" {
   public_key            = file(var.key_path)
 }
 
+resource "aws_instance" "stage_server" {
+  count                 = var.instance_count
+  instance_type         = var.instance_type
+  ami                   = data.aws_ami.server_ami.id
+
+  tags {
+    Name = "stage_server-${count.index +1}"
+  }
+
+  key_name               = aws_key_pair.stage_key_pair.id
+  vpc_security_group_ids = aws_security_group.stage_sg.id
+  subnet_id              = var.subnet_id
+}
+
