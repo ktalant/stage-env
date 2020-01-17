@@ -29,7 +29,7 @@ resource "aws_key_pair" "stage_keypair" {
   public_key            = file(var.key_path)
 }
 
-resource "aws_instance" "tf_server" {
+resource "aws_instance" "stage_server" {
   count                 = var.instance_count
   instance_type         = var.instance_type
   ami                   = data.aws_ami.server_ami.id
