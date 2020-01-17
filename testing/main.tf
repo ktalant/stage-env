@@ -43,7 +43,7 @@ resource "aws_instance" "stage_server" {
   }
 
   key_name               = aws_key_pair.stage_keypair.id
-  vpc_security_group_ids = aws_security_group.stage_sg.id
+  vpc_security_group_ids = aws_security_group.stage_sg.name
   subnet_id              = var.subnet_id
 }
 
