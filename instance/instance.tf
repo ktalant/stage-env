@@ -1,3 +1,7 @@
+provider "aws" {
+  region        = var.aws_region
+}
+
 data "aws_ami" "centos_latest" {
 owners      = ["679593333241"]
 most_recent = true
