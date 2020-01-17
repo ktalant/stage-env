@@ -7,39 +7,29 @@ resource "aws_default_vpc" "default" {
     Name = "default_vpc"
   }
 }
-resource "aws_security_group" "stage_sg" {
-  name        = "stage_sg"
-  description = "Used for access to the public instances"
-  vpc_id      = aws_default_vpc.default.id
 
-  #SSH
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = var.accessip
+data "aws_ami" "centos_latest" {
+owners      = ["679593333241"]
+most_recent = true
+
+  filter {
+      name   = "name"
+      values = ["CentOS Linux 7 x86_64 HVM EBS *"]
   }
 
-  #HTTP
+  filter {
+      name   = "architecture"
+      values = ["x86_64"]
+  }
 
-  ingress {
-    from_port   = 5000
-    to_port     = 5000
-    protocol    = "tcp"
-    cidr_blocks = var.accessip
-  }
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  tags = {
-      name          = "stage-sg"
+  filter {
+      name   = "root-device-type"
+      values = ["ebs"]
   }
 }
 
-
-
-
+resource "aws_key_pair" "stage_keypair" {
+  key_name              = var.key_name
+  public_key            = file(var.key_path)
+}
 
