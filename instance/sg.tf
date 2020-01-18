@@ -1,8 +1,4 @@
-resource "aws_default_vpc" "default" {
-  tags = {
-    Name = "default_vpc"
-  }
-}
+
 resource "aws_security_group" "stage_sg" {
   name        = "stage_sg"
   description = "Used for access to the public instances"
@@ -30,4 +26,12 @@ resource "aws_security_group" "stage_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  tags = {
+      name          = "stage-sg"
+  }
 }
+
+
+
+
+
